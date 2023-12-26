@@ -8,15 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var name = ""
+    
+    @EnvironmentObject var cartManager: CartManager;
+    
     
     var body: some View {
-        EmptyView()
+        TabView {
+            MenuPage()
+                .tabItem {
+                    Image(systemName: "cup.and.saucer")
+                    Text("Menu") }
+            OffersPage()
+                .tabItem {
+                    Image(systemName: "tag")
+                    Text("Offers")
+                }
+            OrderPage()
+                .tabItem {
+                    Image(systemName: "cart")
+                    Text("My Order")
+                }.badge(Int(cartManager.cart.count))
+            InfoPage()
+                .tabItem {
+                    Image(systemName: "info.circle")
+                    Text("Info")
+                }
+        }
+        
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
+
+#Preview {
+    ContentView()
+        .environmentObject(MenuManager())
+        .environmentObject(CartManager())
+        .environmentObject(LikesManager())
 }
